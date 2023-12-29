@@ -19,18 +19,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()
-
-
-
         }
-
-    fun OnClickNew(view: View) {
-        val i = Intent(this,MainActivity2::class.java)
-        startActivity(i)
-    }
     override fun onDestroy() {
         super.onDestroy()
         myDBManager.closeDb()
 
+    } // Оба важны
+    fun OnClickNew(view: View) {
+        val i = Intent(this,MainActivity2::class.java)
+        startActivity(i)
     }
+
 }

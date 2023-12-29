@@ -11,11 +11,12 @@ class MyDBManager(val context: Context) {
     {
         db = myDBHelp.writableDatabase // Чтобы бд открылась для записи и считывания
     }
-    fun insertToDb(title: String,content:String)
+    fun insertToDb(title: String,content:String,uri:String)
     {
         val values = ContentValues().apply {
             put(MyDbNameClass.COLUMN_NAME_TITLE,title)
             put(MyDbNameClass.COLUMN_NAME_CONTENT,content)
+            put(MyDbNameClass.COLUMN_NAME_IMAGE_URI,uri)
         }
         db?.insert(MyDbNameClass.TABLE_NAME,null,values)
     }
@@ -28,7 +29,7 @@ class MyDBManager(val context: Context) {
             val dataT = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_TITLE))
             dataList.add(dataT.toString())
             //val dataText = cursor?.getString(cursor.getColumnIndex(MyDbNameClss.COLUMN_NAME_TITLE))
-        }
+        } // СЧИТЫВАНИЕ ТОЛЬКО ЗАГОЛОВКА
 
         // cursor - спец класс для считывания данных
         cursor.close()

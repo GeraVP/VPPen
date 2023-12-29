@@ -50,6 +50,7 @@
         android:layout_marginBottom="36dp"
         android:clickable="true"
         android:contentDescription="@string/addb"
+        android:onClick="onClickSave"
         app:layout_constraintBottom_toBottomOf="@+id/edDesc"
         app:layout_constraintEnd_toEndOf="@+id/edDesc"
         app:srcCompat="@android:drawable/ic_menu_save" />
@@ -79,24 +80,14 @@
         app:layout_constraintStart_toStartOf="@+id/edTitle"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/imButtonEditimage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Настройка изображения"
-            android:src="@android:drawable/ic_menu_edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
-
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="124dp"
+            android:id="@+id/imMyImage"
+            android:layout_width="380dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:padding="5dp"
+            android:scaleType="fitXY"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -111,8 +102,20 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="Удалить изображение"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imMyImage"
             app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <ImageButton
+            android:id="@+id/imButtonEditimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Настройка изображения"
+            android:onClick="onClickChooseImage"
+            android:src="@android:drawable/ic_menu_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imMyImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
