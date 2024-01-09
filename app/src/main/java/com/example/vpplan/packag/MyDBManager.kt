@@ -20,14 +20,20 @@ class MyDBManager(val context: Context) {
         }
         db?.insert(MyDbNameClass.TABLE_NAME,null,values)
     }
-    fun readDbData(): ArrayList<String>{
-        val dataList = ArrayList<String>() // Создал массив
+    fun readDbData(): ArrayList<ListItem>{
+        val dataList = ArrayList<ListItem>() // Создал массив
         val cursor = db?.query(MyDbNameClass.TABLE_NAME,null,null,null,null,null,null)
 
         while (cursor?.moveToNext()!!)
         {
             val dataT = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_TITLE))
-            dataList.add(dataT.toString())
+            val dataContent = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_CONTENT))
+            val dataUri = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_IMAGE_URI))
+            var item = ListItem()
+            item.title = dataT
+            item.desc = dataContent
+            item.uri = dataUri
+            dataList.add(item)
             //val dataText = cursor?.getString(cursor.getColumnIndex(MyDbNameClss.COLUMN_NAME_TITLE))
         } // СЧИТЫВАНИЕ ТОЛЬКО ЗАГОЛОВКА
 

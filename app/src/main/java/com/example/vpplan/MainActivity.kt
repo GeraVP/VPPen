@@ -20,7 +20,7 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
-    val myAdapter = MyAdapter(ArrayList())
+    val myAdapter = MyAdapter(ArrayList(),this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,8 +48,15 @@ class MainActivity : AppCompatActivity() {
         i.layoutManager = LinearLayoutManager(this) // Элементы будут распологаться по вертикали
         i.adapter = myAdapter
     }
+
     fun fillAdapter(){
-        myAdapter.upDateAdapter(myDBManager.readDbData())
+        val NE: TextView = findViewById(R.id.tvNoElements)
+        val list = myDBManager.readDbData()
+        myAdapter.upDateAdapter(list)
+
+        if(list.size > 0){
+            NE.visibility = View.GONE
+        } else {NE.visibility = View.VISIBLE}
     } // Обновление  для resume
 }
 
