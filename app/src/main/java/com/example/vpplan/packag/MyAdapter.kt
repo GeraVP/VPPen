@@ -50,4 +50,10 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
         listarray.addAll(listItems)
         notifyDataSetChanged()
     } // Берёт массив listarray, очищает, добавлеяет новый массив, сообщает адаптеру что данные изменились
+    fun removeItem(pos:Int, dbManager: MyDBManager){
+        dbManager.removeItemFromDb(listarray[pos].id.toString())
+        listarray.removeAt(pos)
+        notifyItemRangeChanged(0,listarray.size)
+        notifyItemRemoved(pos)
+    } // Удаление из адаптера но не из бд
 }

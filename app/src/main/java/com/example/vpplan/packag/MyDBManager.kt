@@ -2,6 +2,7 @@ package com.example.vpplan.packag
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.provider.BaseColumns
 
 class MyDBManager(val context: Context) {
     val myDBHelp = MyDBHelp(context) // Будет открывать БД
@@ -29,10 +30,12 @@ class MyDBManager(val context: Context) {
             val dataT = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_TITLE))
             val dataContent = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_CONTENT))
             val dataUri = cursor.getString(cursor.getColumnIndexOrThrow(MyDbNameClass.COLUMN_NAME_IMAGE_URI))
+            val dataId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID)) // 10.01.24
             var item = ListItem()
             item.title = dataT
             item.desc = dataContent
             item.uri = dataUri
+            item.id = dataId
             dataList.add(item)
             //val dataText = cursor?.getString(cursor.getColumnIndex(MyDbNameClss.COLUMN_NAME_TITLE))
         } // СЧИТЫВАНИЕ ТОЛЬКО ЗАГОЛОВКА
@@ -44,4 +47,9 @@ class MyDBManager(val context: Context) {
     fun closeDb(){
         myDBHelp.close()
     }
+    fun removeItemFromDb(id: String)
+    {
+val selection = BaseColumns._ID + "=$id"
+        db?.delete(MyDbNameClass.TABLE_NAME,selection,null)
+    }// Функция удаления
 }

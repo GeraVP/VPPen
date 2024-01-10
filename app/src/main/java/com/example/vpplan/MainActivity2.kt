@@ -42,6 +42,7 @@ class MainActivity2 : AppCompatActivity() {
         if(resultCode == RESULT_OK && requestCode == imageRequestCode){
             im.setImageURI(data?.data)
             tempImageUri = data?.data.toString()
+            contentResolver.takePersistableUriPermission(data?.data!!,Intent.FLAG_GRANT_READ_URI_PERMISSION) // !!!!
         }
     }
     fun onClickAddImage(view: View) {
@@ -59,7 +60,7 @@ class MainActivity2 : AppCompatActivity() {
     fun onClickChooseImage(view: View) {
         var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            //intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         startActivityForResult(intent, imageRequestCode)
     } // Функция открытия галереи ССЫЛКА НЕ ВРЕМЕННАЯ
     fun onClickSave(view: View) {
