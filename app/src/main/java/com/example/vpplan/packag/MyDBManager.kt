@@ -21,9 +21,11 @@ class MyDBManager(val context: Context) {
         }
         db?.insert(MyDbNameClass.TABLE_NAME,null,values)
     }
-    fun readDbData(): ArrayList<ListItem>{
+    fun readDbData(searchText: String): ArrayList<ListItem>{
         val dataList = ArrayList<ListItem>() // Создал массив
-        val cursor = db?.query(MyDbNameClass.TABLE_NAME,null,null,null,null,null,null)
+        val selection = "${MyDbNameClass.COLUMN_NAME_TITLE} like ?"
+        val cursor = db?.query(MyDbNameClass.TABLE_NAME,null,selection, arrayOf("%$searchText%"),null,null,null)
+
 
         while (cursor?.moveToNext()!!)
         {

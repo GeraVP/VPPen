@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RemoteViews
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+        initSearchView()
     }
 
     override fun onResume() {
@@ -51,10 +54,25 @@ class MainActivity : AppCompatActivity() {
         swapHelper.attachToRecyclerView(i)// Соединяем их вместе
         i.adapter = myAdapter
     }
+    private fun initSearchView(){
+        val sv = findViewById<SearchView>(R.id.searchView)
+        sv.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            } // при нажатии на поиск
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val NE: TextView = findViewById(R.id.tvNoElements)
+                val list = myDBManager.readDbData(newText!!)
+                myAdapter.upDateAdapter(list)
+                return true
+            }
+        }) // ОБновлние при изменениеи внутри поиска
+    }
 
     fun fillAdapter(){
         val NE: TextView = findViewById(R.id.tvNoElements)
-        val list = myDBManager.readDbData()
+        val list = myDBManager.readDbData("")
         myAdapter.upDateAdapter(list)
 
         if(list.size > 0){
