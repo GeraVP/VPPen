@@ -19,8 +19,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-
 class MainActivity : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
     val myAdapter = MyAdapter(ArrayList(),this)
@@ -30,28 +28,25 @@ class MainActivity : AppCompatActivity() {
         init()
         initSearchView()
     }
-
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()
         fillAdapter()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         myDBManager.closeDb()
 
-    } // Оба важны
-
+    }
     fun OnClickNew(view: View) {
         val i = Intent(this, MainActivity2::class.java)
         startActivity(i)
     }
     fun init(){
         val i = findViewById<RecyclerView>(R.id.rcView)
-        i.layoutManager = LinearLayoutManager(this) // Элементы будут распологаться по вертикали
+        i.layoutManager = LinearLayoutManager(this)
         val swapHelper = getSwapMg()
-        swapHelper.attachToRecyclerView(i)// Соединяем их вместе
+        swapHelper.attachToRecyclerView(i)
         i.adapter = myAdapter
     }
     private fun initSearchView(){
@@ -59,17 +54,15 @@ class MainActivity : AppCompatActivity() {
         sv.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 TODO("Not yet implemented")
-            } // при нажатии на поиск
-
+            }
             override fun onQueryTextChange(newText: String?): Boolean {
                 val NE: TextView = findViewById(R.id.tvNoElements)
                 val list = myDBManager.readDbData(newText!!)
                 myAdapter.upDateAdapter(list)
                 return true
             }
-        }) // ОБновлние при изменениеи внутри поиска
+        }) // Сортировка при нажатии на поиск и при изменениии внутри поиска
     }
-
     fun fillAdapter(){
         val NE: TextView = findViewById(R.id.tvNoElements)
         val list = myDBManager.readDbData("")
@@ -78,21 +71,20 @@ class MainActivity : AppCompatActivity() {
         if(list.size > 0){
             NE.visibility = View.GONE
         } else {NE.visibility = View.VISIBLE}
-    } // Обновление  для resume
+    }
     private fun getSwapMg():ItemTouchHelper{
-        return ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT){
+        return ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
                 return false
-            } // Переаскиваем элемент Не нужно поэтому мы отправляем false
+            }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myAdapter.removeItem(viewHolder.adapterPosition, myDBManager)
-
-            } // ДЕлаем swipe
+            }
         })
     }
 }

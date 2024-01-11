@@ -34,7 +34,7 @@
         android:contentDescription="@string/addb"
         android:focusable="true"
         android:onClick="OnClickNew"
-        app:backgroundTint="@color/dbl"
+        app:backgroundTint="@color/back"
         app:layout_constraintBottom_toBottomOf="@+id/rcView"
         app:layout_constraintEnd_toEndOf="@+id/rcView"
         app:srcCompat="@drawable/ic_add" />
@@ -58,6 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/rcView"
         app:layout_constraintStart_toStartOf="@+id/rcView"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,12 +5,11 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 
 class MyDBManager(val context: Context) {
-    val myDBHelp = MyDBHelp(context) // Будет открывать БД
+    val myDBHelp = MyDBHelp(context)
     var db: SQLiteDatabase? = null
-
     fun openDb()
     {
-        db = myDBHelp.writableDatabase // Чтобы бд открылась для записи и считывания
+        db = myDBHelp.writableDatabase
     }
     fun insertToDb(title: String,content:String,uri:String)
     {
@@ -22,10 +21,9 @@ class MyDBManager(val context: Context) {
         db?.insert(MyDbNameClass.TABLE_NAME,null,values)
     }
     fun readDbData(searchText: String): ArrayList<ListItem>{
-        val dataList = ArrayList<ListItem>() // Создал массив
+        val dataList = ArrayList<ListItem>()
         val selection = "${MyDbNameClass.COLUMN_NAME_TITLE} like ?"
         val cursor = db?.query(MyDbNameClass.TABLE_NAME,null,selection, arrayOf("%$searchText%"),null,null,null)
-
 
         while (cursor?.moveToNext()!!)
         {
@@ -39,19 +37,16 @@ class MyDBManager(val context: Context) {
             item.uri = dataUri
             item.id = dataId
             dataList.add(item)
-            //val dataText = cursor?.getString(cursor.getColumnIndex(MyDbNameClss.COLUMN_NAME_TITLE))
-        } // СЧИТЫВАНИЕ ТОЛЬКО ЗАГОЛОВКА
-
-        // cursor - спец класс для считывания данных
+        }
         cursor.close()
-        return dataList // Возвращаю его
-    } // Возвращает массив типа string
+        return dataList
+    }
     fun closeDb(){
         myDBHelp.close()
     }
     fun removeItemFromDb(id: String)
     {
-val selection = BaseColumns._ID + "=$id"
+        val selection = BaseColumns._ID + "=$id"
         db?.delete(MyDbNameClass.TABLE_NAME,selection,null)
-    }// Функция удаления
+    }
 }
