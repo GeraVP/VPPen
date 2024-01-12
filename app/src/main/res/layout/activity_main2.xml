@@ -19,7 +19,9 @@
         android:ems="10"
         android:hint="Наименование"
         android:inputType="text"
+        android:onClick="OnEditEnable"
         android:padding="10dp"
+        android:textColor="@color/edittextcolorstate"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,6 +40,7 @@
         android:gravity="top"
         android:hint="Добавьте запись"
         android:inputType="textMultiLine"
+        android:textColor="@color/edittextcolorstate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/edTitle"
         app:layout_constraintStart_toStartOf="@+id/edTitle"
@@ -121,5 +124,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imMyImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="36dp"
+        android:clickable="true"
+        android:onClick="OnEditEnable"
+        android:visibility="gone"
+        app:backgroundTint="#14AB9D"
+        app:layout_constraintBottom_toBottomOf="@+id/edDesc"
+        app:layout_constraintEnd_toEndOf="@+id/edDesc"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edDesc"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

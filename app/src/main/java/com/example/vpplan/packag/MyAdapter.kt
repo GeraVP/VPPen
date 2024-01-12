@@ -24,6 +24,7 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
                     putExtra(MyIntentConstants.I_title,item.title)
                     putExtra(MyIntentConstants.I_desc,item.desc)
                     putExtra(MyIntentConstants.I_URI,item.uri)
+                    putExtra(MyIntentConstants.I_ID,item.id)
                 }
                 context.startActivity(intent)
             }

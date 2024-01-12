@@ -19,6 +19,8 @@ import com.example.vpplan.packag.MyIntentConstants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity2 : AppCompatActivity() {
+    var id = 0
+    var isEditState = false
     val imageRequestCode = 10
     var tempImageUri = "empty"
     val myDBManager = MyDBManager(this)
@@ -64,13 +66,29 @@ class MainActivity2 : AppCompatActivity() {
         val desc = findViewById<EditText>(R.id.edDesc)
         if(title.text.toString() != "" && desc.text.toString() != "")
         {
+            if(isEditState){
+                myDBManager.UpdateItem(title.text.toString(),desc.text.toString(),tempImageUri,id) // Добавление в БД
+                }else{
             myDBManager.insertToDb(title.text.toString(),desc.text.toString(),tempImageUri) // Добавление в БД
+                }
             finish() // Закрытие activity
         }
+    }
+
+    fun OnEditEnable(view: View){
+        val title = findViewById<EditText>(R.id.edTitle)
+        val desc = findViewById<EditText>(R.id.edDesc)
+        val fbedit = findViewById<FloatingActionButton>(R.id.fbedit)
+        title.isEnabled = true
+        desc.isEnabled = true
+        fbedit.visibility = View.GONE
+
     }
     fun getMyIntents(){
         val title = findViewById<EditText>(R.id.edTitle)
         val desc = findViewById<EditText>(R.id.edDesc)
+        val fbedit = findViewById<FloatingActionButton>(R.id.fbedit)
+
         val yourElement = findViewById<View>(R.id.mainImageLay)
         val image = findViewById<ImageView>(R.id.imMyImage)
         val buttadd = findViewById<FloatingActionButton>(R.id.flb)
@@ -79,7 +97,15 @@ class MainActivity2 : AppCompatActivity() {
             if(i.getStringExtra(MyIntentConstants.I_title) != null){ // Ничего нет
                 buttadd.visibility = View.GONE
                 title.setText(i.getStringExtra(MyIntentConstants.I_title))
-                    desc.setText(i.getStringExtra(MyIntentConstants.I_desc))
+                   isEditState = true
+
+                title.isEnabled = false
+                desc.isEnabled = false
+
+                fbedit.visibility = View.VISIBLE
+                desc.setText(i.getStringExtra(MyIntentConstants.I_desc))
+
+                id = i.getIntExtra((MyIntentConstants.I_ID),0)
                 if(i.getStringExtra(MyIntentConstants.I_URI) != "empty"){
                     yourElement.visibility = View.VISIBLE
                     image.setImageURI(Uri.parse(i.getStringExtra(MyIntentConstants.I_URI)))
