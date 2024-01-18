@@ -28,58 +28,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainImageLay" />
 
-    <EditText
-        android:id="@+id/edDesc"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-
-        android:gravity="top"
-        android:hint="Добавьте запись"
-        android:inputType="textMultiLine"
-        android:textColor="@color/edittextcolorstate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/edTitle"
-        app:layout_constraintStart_toStartOf="@+id/edTitle"
-        app:layout_constraintTop_toBottomOf="@+id/edTitle"
-        app:layout_constraintVertical_bias="0.065" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="48dp"
         android:clickable="true"
         android:contentDescription="@string/addb"
         android:onClick="onClickSave"
-        app:backgroundTint="@color/back"
-        app:layout_constraintBottom_toBottomOf="@+id/edDesc"
-        app:layout_constraintEnd_toEndOf="@+id/edDesc"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/calendarView1"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView1"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/flb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="112dp"
         android:clickable="true"
         android:contentDescription="@string/addb"
         android:onClick="onClickAddImage"
         android:visibility="visible"
-        app:backgroundTint="@color/back"
-        app:layout_constraintBottom_toBottomOf="@+id/edDesc"
-        app:layout_constraintEnd_toEndOf="@+id/edDesc"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/fbSave"
+        app:layout_constraintEnd_toStartOf="@+id/fbSave"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toEndOf="@+id/fbedit"
+        app:layout_constraintTop_toTopOf="@+id/fbSave"
         app:srcCompat="@drawable/ic_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="Редактирование"
+        android:onClick="OnEditEnable"
+        android:visibility="visible"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/fbSave"
+        app:layout_constraintStart_toStartOf="@+id/calendarView1"
+        app:layout_constraintTop_toTopOf="@+id/fbSave"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainImageLay"
         android:layout_width="0dp"
-        android:layout_height="251dp"
+        android:layout_height="211dp"
         android:layout_marginTop="10dp"
         android:background="#FFFFFF"
         android:visibility="gone"
@@ -125,20 +120,14 @@
             app:layout_constraintTop_toTopOf="@+id/imMyImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbedit"
-        android:layout_width="wrap_content"
+    <CalendarView
+        android:id="@+id/calendarView1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginBottom="36dp"
-        android:clickable="true"
-        android:onClick="OnEditEnable"
-        android:visibility="gone"
-        app:backgroundTint="#14AB9D"
-        app:layout_constraintBottom_toBottomOf="@+id/edDesc"
-        app:layout_constraintEnd_toEndOf="@+id/edDesc"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edDesc"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/edTitle"
+        app:layout_constraintStart_toStartOf="@+id/edTitle"
+        app:layout_constraintTop_toBottomOf="@+id/edTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,14 @@
 package com.example.vpplan
 
 import android.content.Intent
+import android.icu.util.Calendar
 import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -24,11 +26,24 @@ class MainActivity2 : AppCompatActivity() {
     val imageRequestCode = 10
     var tempImageUri = "empty"
     val myDBManager = MyDBManager(this)
+
+    var date = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         getMyIntents()
+
+        val calendarView = findViewById<CalendarView>(R.id.calendarView1)
+        calendarView.setOnDateChangeListener{_, year, month, dayOfMonth ->
+            val selectedDate = "${dayOfMonth}/${month + 1}/${year}"
+            date = selectedDate.toString()
+            //showToast(selectedDate)
+        }
+
     }
+    /*private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }*/
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()
@@ -63,13 +78,13 @@ class MainActivity2 : AppCompatActivity() {
     } // Функция открытия галереи ССЫЛКА НЕ ВРЕМЕННАЯ
     fun onClickSave(view: View) {
         val title = findViewById<EditText>(R.id.edTitle)
-        val desc = findViewById<EditText>(R.id.edDesc)
-        if(title.text.toString() != "" && desc.text.toString() != "")
+
+        if(title.text.toString() != "" && date.toString() != "")
         {
             if(isEditState){
-                myDBManager.UpdateItem(title.text.toString(),desc.text.toString(),tempImageUri,id) // Добавление в БД
+                myDBManager.UpdateItem(title.text.toString(),date,tempImageUri,id) // Обновления в БД
                 }else{
-            myDBManager.insertToDb(title.text.toString(),desc.text.toString(),tempImageUri) // Добавление в БД
+            myDBManager.insertToDb(title.text.toString(),date,tempImageUri) // Добавление в БД
                 }
             finish() // Закрытие activity
         }
@@ -77,7 +92,7 @@ class MainActivity2 : AppCompatActivity() {
 
     fun OnEditEnable(view: View){
         val title = findViewById<EditText>(R.id.edTitle)
-        val desc = findViewById<EditText>(R.id.edDesc)
+        val desc = findViewById<CalendarView>(R.id.calendarView1)
         val fbedit = findViewById<FloatingActionButton>(R.id.fbedit)
         title.isEnabled = true
         desc.isEnabled = true
@@ -86,7 +101,7 @@ class MainActivity2 : AppCompatActivity() {
     }
     fun getMyIntents(){
         val title = findViewById<EditText>(R.id.edTitle)
-        val desc = findViewById<EditText>(R.id.edDesc)
+        val desc = findViewById<CalendarView>(R.id.calendarView1)
         val fbedit = findViewById<FloatingActionButton>(R.id.fbedit)
 
         val yourElement = findViewById<View>(R.id.mainImageLay)
@@ -103,7 +118,7 @@ class MainActivity2 : AppCompatActivity() {
                 desc.isEnabled = false
 
                 fbedit.visibility = View.VISIBLE
-                desc.setText(i.getStringExtra(MyIntentConstants.I_desc))
+                /*desc.setText(i.getStringExtra(MyIntentConstants.I_desc))*/
 
                 id = i.getIntExtra((MyIntentConstants.I_ID),0)
                 if(i.getStringExtra(MyIntentConstants.I_URI) != "empty"){
