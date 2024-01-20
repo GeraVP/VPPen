@@ -28,6 +28,7 @@ class MainActivity2 : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
 
     var date = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
@@ -37,13 +38,9 @@ class MainActivity2 : AppCompatActivity() {
         calendarView.setOnDateChangeListener{_, year, month, dayOfMonth ->
             val selectedDate = "${dayOfMonth}/${month + 1}/${year}"
             date = selectedDate.toString()
-            //showToast(selectedDate)
         }
 
     }
-    /*private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }*/
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()

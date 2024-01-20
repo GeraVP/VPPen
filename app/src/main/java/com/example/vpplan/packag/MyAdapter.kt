@@ -5,9 +5,11 @@ package com.example.vpplan.packag
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -21,10 +23,18 @@ import java.util.Locale
 class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.Adapter<MyAdapter.MyHolder>(){ // MyA() - создание конструктора и передача списка listmain
     var listarray = listMain
     val context = contextM
+
     class MyHolder(itemView: View,contextV: Context) : RecyclerView.ViewHolder(itemView) {
+       //val layout = itemView.findViewById<LinearLayout>(R.id.tr)
+        var daysLef:Int = 0
+
+
+
         val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         val tvDT = itemView.findViewById<TextView>(R.id.teV)
         val context = contextV
+
+
         fun setData(item:ListItem){
 
             val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -34,11 +44,10 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
 
             val difference = userDate.timeInMillis - currentDate.timeInMillis
             val daysLeft = difference / (24 * 60 * 60 * 1000)
+            daysLef = daysLeft.toInt()
 
             tvTitle.text = item.title
             tvDT.text = "Осталось: ${daysLeft.toString()} д."
-
-
 
             itemView.setOnClickListener {
                 val intent = Intent(context,MainActivity2::class.java).apply {
@@ -49,13 +58,9 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
                 }
                 context.startActivity(intent)
             }
+
         }
     }
-   /* fun calculateDateDifference(userDateTextView: String) {
-
-
-        //resultTextView.text = "Разница в днях: $daysDifference"
-    }*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
        val inflater = LayoutInflater.from(parent.context)
         return MyHolder(inflater.inflate(R.layout.rcitme,parent,false),context)
@@ -64,7 +69,16 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
        return listarray.size
     }
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
+
         holder.setData(listarray.get(position))
+        if(holder.daysLef < 5) {
+            holder.itemView.setBackgroundColor(Color.RED)
+        } else {
+            if(holder.daysLef < 10 && holder.daysLef > 5) {
+                holder.itemView.setBackgroundColor(Color.BLACK)
+            }
+        }
+
     }
     fun upDateAdapter(listItems:List<ListItem>){
         listarray.clear()
