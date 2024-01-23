@@ -72,10 +72,13 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
 
         holder.setData(listarray.get(position))
         if(holder.daysLef < 5) {
-            holder.itemView.setBackgroundColor(Color.RED)
+            holder.itemView.setBackgroundResource(R.drawable.red)
+
         } else {
-            if(holder.daysLef < 10 && holder.daysLef > 5) {
-                holder.itemView.setBackgroundColor(Color.BLACK)
+            if(holder.daysLef in 5..10) {
+                holder.itemView.setBackgroundColor(Color.YELLOW)
+            } else {
+                holder.itemView.setBackgroundColor(Color.GREEN)
             }
         }
 

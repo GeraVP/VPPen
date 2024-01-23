@@ -30,7 +30,7 @@
         android:layout_height="284dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:clickable="true"
+        android:baselineAlignBottom="false"
         android:contentDescription="@string/addb"
         android:focusable="true"
         android:onClick="OnClickNew"
@@ -53,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45" />
 
-    <SearchView
+    <android.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

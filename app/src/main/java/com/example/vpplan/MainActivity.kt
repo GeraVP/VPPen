@@ -2,6 +2,7 @@ package com.example.vpplan
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vpplan.packag.MyAdapter
 import com.example.vpplan.packag.MyDBManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         init()
         initSearchView()
+
+        val a = findViewById<FloatingActionButton>(R.id.fbNew)
+        a.setColorFilter(Color.argb(255, 255, 255, 255));
     }
     override fun onResume() {
         super.onResume()
