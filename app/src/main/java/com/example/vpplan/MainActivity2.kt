@@ -1,6 +1,7 @@
 package com.example.vpplan
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.media.Image
 import android.net.Uri
@@ -19,6 +20,9 @@ import com.example.vpplan.R.id.mainImageLay
 import com.example.vpplan.packag.MyDBManager
 import com.example.vpplan.packag.MyIntentConstants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class MainActivity2 : AppCompatActivity() {
     var id = 0
@@ -39,7 +43,9 @@ class MainActivity2 : AppCompatActivity() {
             val selectedDate = "${dayOfMonth}/${month + 1}/${year}"
             date = selectedDate.toString()
         }
-
+/*val cal = Calendar.getInstance()
+        cal.set(2020,6,27)
+        calendarView.date = cal.timeInMillis*/
     }
     override fun onResume() {
         super.onResume()
@@ -90,12 +96,12 @@ class MainActivity2 : AppCompatActivity() {
     fun OnEditEnable(view: View){
         val title = findViewById<EditText>(R.id.edTitle)
         val desc = findViewById<CalendarView>(R.id.calendarView1)
-        val fbedit = findViewById<FloatingActionButton>(R.id.fbedit)
+        val fbedi = findViewById<FloatingActionButton>(R.id.fbedit)
         title.isEnabled = true
         desc.isEnabled = true
-        fbedit.visibility = View.GONE
+       // fbedi.visibility = View.GONE Поменял на else в getmyIntents
 
-    }
+    } // Функция при нажатии на элемент
     fun getMyIntents(){
         val title = findViewById<EditText>(R.id.edTitle)
         val desc = findViewById<CalendarView>(R.id.calendarView1)
@@ -104,24 +110,31 @@ class MainActivity2 : AppCompatActivity() {
         val yourElement = findViewById<View>(R.id.mainImageLay)
         val image = findViewById<ImageView>(R.id.imMyImage)
         val buttadd = findViewById<FloatingActionButton>(R.id.flb)
+
         val i = intent
         if(i != null){
             if(i.getStringExtra(MyIntentConstants.I_title) != null){ // Ничего нет
                 buttadd.visibility = View.GONE
-                title.setText(i.getStringExtra(MyIntentConstants.I_title))
-                   isEditState = true
+                title.setText(i.getStringExtra(MyIntentConstants.I_title)) // Заполнение поля title из бд
 
-                title.isEnabled = false
-                desc.isEnabled = false
+                val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val userDate = Calendar.getInstance()
+                userDate.time = inputFormat.parse(i.getStringExtra(MyIntentConstants.I_desc))
+                desc.date = userDate.timeInMillis // Автоматический выбор даты в calendarview из бд
 
-                fbedit.visibility = View.VISIBLE
-                /*desc.setText(i.getStringExtra(MyIntentConstants.I_desc))*/
+                isEditState = true // Если в бд не пусто, то переменная bool  становится true
+
+                title.isEnabled = false // Запрет на изменение
+
+                fbedit.visibility = View.VISIBLE // Включаем кнопку изменения
 
                 id = i.getIntExtra((MyIntentConstants.I_ID),0)
                 if(i.getStringExtra(MyIntentConstants.I_URI) != "empty"){
                     yourElement.visibility = View.VISIBLE
                     image.setImageURI(Uri.parse(i.getStringExtra(MyIntentConstants.I_URI)))
                 }
+            } else { // Если в бд ничего нет (title пустой), то кнопка изменения пропадает.
+                fbedit.visibility = View.GONE
             }
         }
     }

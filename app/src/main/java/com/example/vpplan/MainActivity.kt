@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                val NE: TextView = findViewById(R.id.tvNoElements)
                 val list = myDBManager.readDbData(newText!!)
                 myAdapter.upDateAdapter(list)
                 return true
