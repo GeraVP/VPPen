@@ -1,8 +1,11 @@
 package com.example.vpplan
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +14,7 @@ import android.widget.EditText
 import android.widget.RemoteViews
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +25,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-//RecyclerView.ViewHolder
 class MainActivity : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
     val myAdapter = MyAdapter(ArrayList(),this)
@@ -33,6 +36,30 @@ class MainActivity : AppCompatActivity() {
 
         val a = findViewById<FloatingActionButton>(R.id.fbNew)
         a.setColorFilter(Color.argb(255, 255, 255, 255));
+        Uvedomlenie()
+    }
+    private fun Uvedomlenie(){
+        val sdf = SimpleDateFormat("dd/M/yyyy ")//hh:mm:ss
+        val currentDate = sdf.format(Date())
+
+        val channelId = "default_channel_id"
+        val channelName = "Default Channel"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("$currentDate : Привет! Появились новые дела? ")
+            .setContentText("Записывай новые дела в приложении и получай информацию о оставшемся количестве дней.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, channelName, importance)
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(0, notificationBuilder.build())
     }
     override fun onResume() {
         super.onResume()

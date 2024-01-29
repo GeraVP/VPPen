@@ -43,9 +43,6 @@ class MainActivity2 : AppCompatActivity() {
             val selectedDate = "${dayOfMonth}/${month + 1}/${year}"
             date = selectedDate.toString()
         }
-/*val cal = Calendar.getInstance()
-        cal.set(2020,6,27)
-        calendarView.date = cal.timeInMillis*/
     }
     override fun onResume() {
         super.onResume()
@@ -99,7 +96,7 @@ class MainActivity2 : AppCompatActivity() {
         val fbedi = findViewById<FloatingActionButton>(R.id.fbedit)
         title.isEnabled = true
         desc.isEnabled = true
-       // fbedi.visibility = View.GONE Поменял на else в getmyIntents
+        fbedi.visibility = View.GONE
 
     } // Функция при нажатии на элемент
     fun getMyIntents(){

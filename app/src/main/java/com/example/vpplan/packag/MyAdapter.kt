@@ -47,7 +47,8 @@ class MyAdapter(listMain:ArrayList<ListItem>,contextM: Context) : RecyclerView.A
             daysLef = daysLeft.toInt()
 
             tvTitle.text = item.title
-            tvDT.text = "Осталось: ${daysLeft.toString()} д."
+            if(daysLeft >= 0){
+                tvDT.text = "Осталось: ${daysLeft.toString()} д."}else{tvDT.text = "Событие прошло"}
 
             itemView.setOnClickListener {
                 val intent = Intent(context,MainActivity2::class.java).apply {
