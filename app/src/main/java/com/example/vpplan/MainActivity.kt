@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         val a = findViewById<FloatingActionButton>(R.id.fbNew)
         a.setColorFilter(Color.argb(255, 255, 255, 255));
-        Uvedomlenie()
+        //Uvedomlenie()
     }
-    private fun Uvedomlenie(){
+    /*private fun Uvedomlenie(){
         val sdf = SimpleDateFormat("dd/M/yyyy ")//hh:mm:ss
         val currentDate = sdf.format(Date())
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(0, notificationBuilder.build())
-    }
+    }*/
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()

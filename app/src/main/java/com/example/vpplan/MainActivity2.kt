@@ -68,7 +68,7 @@ class MainActivity2 : AppCompatActivity() {
         } else
         {
             yourElement.visibility = View.GONE
-            Toast.makeText(this, "Закрыл", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Закрыто окно выбора изображения", Toast.LENGTH_SHORT).show()
         }
     }
     fun onClickChooseImage(view: View) {
