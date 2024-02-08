@@ -62,6 +62,8 @@ class MyDBManager(val context: Context) {
         val selection = BaseColumns._ID + "=$id"
         db?.delete(MyDbNameClass.TABLE_NAME,selection,null)
     }
+
+
     fun readWidge(): ArrayList<WidgetFile>{
         openDb()
         val dataList = ArrayList<WidgetFile>()
@@ -79,9 +81,9 @@ class MyDBManager(val context: Context) {
         cursor.close()
         closeDb()
         return dataList
-    }
+    } // Чтение бд и запись их в массив типа WidgetFile с переменными title и valueDT
 
-    fun mai():String {
+    fun MinDT():String {
         openDb()
         val a = readWidge()
 
@@ -96,19 +98,32 @@ class MyDBManager(val context: Context) {
 
         closeDb()
         return dates[0].toString()
-    }
-    fun IDElSort ():Int {var idel = 0
+    } // Создание отдельного массива под даты и сортировка их, нахождение минимальной даты
+    fun IDminDT ():Int {var idel = 0
         val a = readWidge()
-
         val value = a.count()
 
         for(i in 0 until value){
-            if(a[i].valueDT.toString() == mai().toString()){
+            if(a[i].valueDT.toString() == MinDT().toString()){
                 idel = i
             }
         }
 
-
         return idel
-    }
+    } // Поиск среди массива readWidge id элемента с значением найденного минимума
+    fun dateMinRes():Int{
+        val a = readWidge()
+        val b = IDminDT()
+
+        val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = Calendar.getInstance()
+        val userDate = Calendar.getInstance()
+        userDate.time = inputFormat.parse(a[b].valueDT)
+
+        val difference = userDate.timeInMillis - currentDate.timeInMillis
+        val daysLeft = difference / (24 * 60 * 60 * 1000)
+        val daysLef = daysLeft.toInt()
+
+        return daysLef
+    } // Нахождение разницы между днем x и сегоднешним днем
 }

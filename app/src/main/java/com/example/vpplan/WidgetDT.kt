@@ -42,24 +42,15 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.widget_d_t)
 
     val a = MyDBManager(context)
-    val dataList = a.readWidge()
+    val readwidget = a.readWidge()
 
+    val demo = a.readWidge()
+    val demo2 = a.IDminDT()
+    val demo3 = a.dateMinRes()
 
-    val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    val currentDate = Calendar.getInstance()
-    val userDate = Calendar.getInstance()
-    userDate.time = inputFormat.parse(dataList[1].valueDT)
-
-    val difference = userDate.timeInMillis - currentDate.timeInMillis
-    val daysLeft = difference / (24 * 60 * 60 * 1000)
-    val daysLef = daysLeft.toInt()
-
-    val demo = a.mai()
-    val demo2 = a.IDElSort()
-
-    if(dataList.isNotEmpty()){
-        views.setTextViewText(R.id.widtv1, dataList[demo2].title.toString())
-        views.setTextViewText(R.id.widtv2,demo)//daysLef.toString()
+    if(readwidget.isNotEmpty()){
+        views.setTextViewText(R.id.widtv1, "Осталось: ${demo3.toString()} д.")
+        views.setTextViewText(R.id.widtv2,demo[demo2].title)
     }
 
     appWidgetManager.updateAppWidget(appWidgetId, views)

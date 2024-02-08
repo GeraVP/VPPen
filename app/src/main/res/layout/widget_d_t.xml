@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5489F6"
+    android:alpha="0.9"
+    android:background="#FFEFEF"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
@@ -11,16 +12,17 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="bottom|center_horizontal"
-        android:text="10 дней"
-        android:textSize="24sp"
+        android:text="Осталось: 0 д."
+        android:textSize="28dp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/widtv2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Сходить в кино"
+        android:text="Событий нет"
         android:textSize="18dp"
         android:textStyle="bold" />
 
@@ -30,6 +32,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="Обновить"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </LinearLayout>
