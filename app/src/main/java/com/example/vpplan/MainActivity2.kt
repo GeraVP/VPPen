@@ -20,6 +20,9 @@ import com.example.vpplan.R.id.mainImageLay
 import com.example.vpplan.packag.MyDBManager
 import com.example.vpplan.packag.MyIntentConstants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -81,12 +84,14 @@ class MainActivity2 : AppCompatActivity() {
 
         if(title.text.toString() != "" && date.toString() != "")
         {
+            CoroutineScope(Dispatchers.Main).launch {
             if(isEditState){
                 myDBManager.UpdateItem(title.text.toString(),date,tempImageUri,id) // Обновления в БД
                 }else{
             myDBManager.insertToDb(title.text.toString(),date,tempImageUri) // Добавление в БД
                 }
             finish() // Закрытие activity
+            }
         }
     }
 

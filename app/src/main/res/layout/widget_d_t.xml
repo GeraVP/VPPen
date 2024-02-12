@@ -2,10 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.9"
-    android:background="#FFEFEF"
+    android:background="@drawable/layout_bg"
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin">
-
+    android:padding="@dimen/widget_margin"><!--#FFEFEF-->
     <TextView
         android:id="@+id/widtv1"
         android:layout_width="match_parent"
@@ -13,6 +12,7 @@
         android:layout_weight="1"
         android:gravity="bottom|center_horizontal"
         android:text="Осталось: 0 д."
+        android:textColor="#FFFFFF"
         android:textSize="28dp"
         android:textStyle="bold" />
 
@@ -23,6 +23,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Событий нет"
+        android:textColor="#FFFFFF"
         android:textSize="18dp"
         android:textStyle="bold" />
 

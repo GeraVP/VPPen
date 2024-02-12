@@ -3,6 +3,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +17,7 @@ class MyDBManager(val context: Context) {
     {
         db = myDBHelp.writableDatabase
     }
-    fun insertToDb(title: String,content:String,uri:String)
+    suspend fun insertToDb(title: String,content:String,uri:String) = withContext(Dispatchers.IO)
     {
         val values = ContentValues().apply {
             put(MyDbNameClass.COLUMN_NAME_TITLE,title)
@@ -24,7 +26,7 @@ class MyDBManager(val context: Context) {
         }
         db?.insert(MyDbNameClass.TABLE_NAME,null,values)
     }
-    fun UpdateItem(title:String, content:String, uri:String,id:Int){
+    suspend fun UpdateItem(title:String, content:String, uri:String,id:Int) = withContext(Dispatchers.IO){
         val selection = BaseColumns._ID + "=$id"
         val values = ContentValues().apply {
             put(MyDbNameClass.COLUMN_NAME_TITLE,title)
@@ -33,7 +35,7 @@ class MyDBManager(val context: Context) {
         }
         db?.update(MyDbNameClass.TABLE_NAME,values,selection,null)
     }
-    fun readDbData(searchText: String): ArrayList<ListItem>{
+    suspend fun readDbData(searchText: String): ArrayList<ListItem> = withContext(Dispatchers.IO){
         val dataList = ArrayList<ListItem>()
         val selection = "${MyDbNameClass.COLUMN_NAME_TITLE} like ?"
         val cursor = db?.query(MyDbNameClass.TABLE_NAME,null,selection, arrayOf("%$searchText%"),null,null,null)
@@ -52,7 +54,7 @@ class MyDBManager(val context: Context) {
             dataList.add(item)
         }
         cursor.close()
-        return dataList
+        return@withContext dataList
     }
     fun closeDb(){
         myDBHelp.close()

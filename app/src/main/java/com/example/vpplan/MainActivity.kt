@@ -21,6 +21,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vpplan.packag.MyAdapter
 import com.example.vpplan.packag.MyDBManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -28,6 +32,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
     val myAdapter = MyAdapter(ArrayList(),this)
+    private var job: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,7 +69,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()
-        fillAdapter()
+        fillAdapter("")
+        /*fillAdapter()*/
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -89,20 +95,25 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                val list = myDBManager.readDbData(newText!!)
-                myAdapter.upDateAdapter(list)
+                fillAdapter(newText!!)
+                /*val list = myDBManager.readDbData(newText!!)
+                myAdapter.upDateAdapter(list)*/
                 return true
             }
         }) // Сортировка при нажатии на поиск и при изменениии внутри поиска
     }
-    fun fillAdapter(){
-        val NE: TextView = findViewById(R.id.tvNoElements)
-        val list = myDBManager.readDbData("")
-        myAdapter.upDateAdapter(list)
+    private fun fillAdapter(text:String){
+        job?.cancel()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            val NE: TextView = findViewById(R.id.tvNoElements)
+            val list = myDBManager.readDbData(text)
+            myAdapter.upDateAdapter(list)
 
-        if(list.size > 0){
-            NE.visibility = View.GONE
-        } else {NE.visibility = View.VISIBLE}
+            if(list.size > 0){
+                NE.visibility = View.GONE
+            } else {NE.visibility = View.VISIBLE}
+        }
+
     }
     private fun getSwapMg():ItemTouchHelper{
         return ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
