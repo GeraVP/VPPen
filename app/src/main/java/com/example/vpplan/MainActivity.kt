@@ -6,29 +6,34 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.RemoteViews
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.example.vpplan.packag.MyAdapter
 import com.example.vpplan.packag.MyDBManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.concurrent.TimeUnit
+
+
 class MainActivity : AppCompatActivity() {
     val myDBManager = MyDBManager(this)
     val myAdapter = MyAdapter(ArrayList(),this)
@@ -39,33 +44,20 @@ class MainActivity : AppCompatActivity() {
         init()
         initSearchView()
 
+        startBackgroundWork()
+
         val a = findViewById<FloatingActionButton>(R.id.fbNew)
         a.setColorFilter(Color.argb(255, 255, 255, 255));
-        //Uvedomlenie()
     }
-    /*private fun Uvedomlenie(){
-        val sdf = SimpleDateFormat("dd/M/yyyy ")//hh:mm:ss
-        val currentDate = sdf.format(Date())
 
-        val channelId = "default_channel_id"
-        val channelName = "Default Channel"
-        val importance = NotificationManager.IMPORTANCE_HIGH
-
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.logo)
-            .setContentTitle("$currentDate : Привет! Появились новые дела? ")
-            .setContentText("Записывай новые дела в приложении и получай информацию о оставшемся количестве дней.")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, channelName, importance)
-            notificationManager.createNotificationChannel(channel)
-        }
-        notificationManager.notify(0, notificationBuilder.build())
-    }*/
+    private fun startBackgroundWork() {
+        val  myWorkRequest = PeriodicWorkRequestBuilder<MyWorker>(30, TimeUnit.MINUTES, 25, TimeUnit.MINUTES).build()
+        /*val workRequest = OneTimeWorkRequestBuilder<MyWorker>()
+            .addTag("Uvedomlenie1")
+            .setInitialDelay(10,TimeUnit.SECONDS)
+            .build()*/
+        WorkManager.getInstance(applicationContext).enqueue(myWorkRequest)
+    }
     override fun onResume() {
         super.onResume()
         myDBManager.openDb()
@@ -132,4 +124,61 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+class DemoWorker(
+    private val appContext: Context,
+    params: WorkerParameters)
+    : CoroutineWorker(appContext, params) {
 
+    override suspend fun doWork(): Result {
+        delay(5000) //simulate background task
+        Log.d("DemoWorker", "do work done!")
+
+        return Result.success()
+    }
+}
+
+class MyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+    /*val sdf = SimpleDateFormat("dd/M/yyyy ")//hh:mm:ss
+    val currentDate = sdf.format(Date())*/
+    override fun doWork(): Result {
+        // Выполните фоновую работу здесь, например, загрузку данных из сети или обработку данных
+
+        // Отправка уведомления
+        sendNotification("Прошло 30 минут. VPDТаймер.")
+
+        return Result.success()
+    }
+
+    private fun sendNotification(message: String) {
+        // Создание канала уведомлений
+        createNotificationChannel()
+
+        // Создание уведомления
+        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setContentTitle("Background Work")
+            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .build()
+
+        // Отправка уведомления
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(NOTIFICATION_ID, notification)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Background Work",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val notificationManager = applicationContext.getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(channel)
+        }
+    }
+
+    companion object {
+        private const val CHANNEL_ID = "background_work_channel"
+        private const val NOTIFICATION_ID = 1
+    }
+}
