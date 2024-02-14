@@ -31,6 +31,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 
@@ -138,13 +141,21 @@ class DemoWorker(
 }
 
 class MyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    /*val sdf = SimpleDateFormat("dd/M/yyyy ")//hh:mm:ss
-    val currentDate = sdf.format(Date())*/
+    val myW = MyDBManager(context)
+    val readwidget = myW.readWidge()
+    val sdf = SimpleDateFormat("dd/M/yyyy")//hh:mm:ss
+
     override fun doWork(): Result {
         // Выполните фоновую работу здесь, например, загрузку данных из сети или обработку данных
-
+        val countmas = readwidget.count()
+        val currentDate = sdf.format(Date())
         // Отправка уведомления
-        sendNotification("Прошло 30 минут. VPDТаймер.")
+        for(n in 0..countmas)
+        {
+            if(readwidget[n].valueDT == currentDate.toString()){
+                sendNotification(readwidget[n].title.toString())
+            }
+        }
 
         return Result.success()
     }
@@ -155,7 +166,7 @@ class MyWorker(context: Context, params: WorkerParameters) : Worker(context, par
 
         // Создание уведомления
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle("Background Work")
+            .setContentTitle("Сегодня событие")
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .build()
