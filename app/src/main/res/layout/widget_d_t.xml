@@ -3,8 +3,9 @@
     android:layout_height="match_parent"
     android:alpha="0.9"
     android:background="@drawable/layout_bg"
+
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin"><!--#FFEFEF-->
+    android:padding="@dimen/widget_margin"><!--#FFEFEF--><!-- android:background="@drawable/layout_bg"-->
     <TextView
         android:id="@+id/widtv1"
         android:layout_width="match_parent"
@@ -22,6 +23,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Событий нет"
         android:textColor="#FFFFFF"
         android:textSize="18dp"

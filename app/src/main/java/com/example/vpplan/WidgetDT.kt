@@ -49,8 +49,13 @@ internal fun updateAppWidget(
     val demo3 = a.dateMinRes()
 
     if(readwidget.isNotEmpty()){
-        views.setTextViewText(R.id.widtv1, "Осталось: ${demo3.toString()} д.")
-        views.setTextViewText(R.id.widtv2,demo[demo2].title)
+        if(demo3 > 0) {
+            views.setTextViewText(R.id.widtv1, "Осталось: ${demo3.toString()} д.")
+            views.setTextViewText(R.id.widtv2, demo[demo2].title)
+        } else{
+            views.setTextViewText(R.id.widtv1, "Событие прошло")
+            views.setTextViewText(R.id.widtv2, demo[demo2].title)
+        }
     }
 
     appWidgetManager.updateAppWidget(appWidgetId, views)

@@ -144,11 +144,11 @@ class MyWorker(context: Context, params: WorkerParameters) : Worker(context, par
     val myW = MyDBManager(context)
     val readwidget = myW.readWidge()
     val sdf = SimpleDateFormat("dd/M/yyyy")//hh:mm:ss
-
+    val countmas = readwidget.count()
+    val currentDate = sdf.format(Date())
     override fun doWork(): Result {
         // Выполните фоновую работу здесь, например, загрузку данных из сети или обработку данных
-        val countmas = readwidget.count()
-        val currentDate = sdf.format(Date())
+
         // Отправка уведомления
         for(n in 0..countmas)
         {
@@ -168,7 +168,7 @@ class MyWorker(context: Context, params: WorkerParameters) : Worker(context, par
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Сегодня событие")
             .setContentText(message)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.vplogo)
             .build()
 
         // Отправка уведомления
