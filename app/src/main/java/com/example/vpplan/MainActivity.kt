@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startBackgroundWork() {
-        val  myWorkRequest = PeriodicWorkRequestBuilder<MyWorker>(30, TimeUnit.MINUTES, 25, TimeUnit.MINUTES).build()
+        val  myWorkRequest = PeriodicWorkRequestBuilder<MyWorker>(5, TimeUnit.HOURS, 20, TimeUnit.MINUTES).build()
         /*val workRequest = OneTimeWorkRequestBuilder<MyWorker>()
             .addTag("Uvedomlenie1")
             .setInitialDelay(10,TimeUnit.SECONDS)
